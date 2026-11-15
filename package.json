@@ -1,0 +1,13 @@
+{
+  "name": "tsukaisugiban",
+  "private": true,
+  "version": "0.1.0",
+  "description": "使いすぎ番：AI の使いすぎ・情報の出しすぎを、送る前に止める小さな中継（試作）。お客様自身の API キーで、お客様の PC・サーバーの中で動かします。npm install は不要（依存 0）。",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "start": "node bin/start.mjs",
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "demo": "node bin/demo.mjs"
+  }
+}

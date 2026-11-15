@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>使いすぎ番 管理</title>
+<link rel="stylesheet" href="/admin/admin.css">
+<script src="/admin/admin.js" defer></script>
+</head>
+<body>
+<header>
+  <h1>使いすぎ番 <small>AI の使いすぎ・情報の出しすぎを止める中継（試作）</small></h1>
+  <p class="note">金額は公開の単価×為替の目安です。請求の正は AI の会社の請求書です。この画面は、この PC の中からだけ開けます。</p>
+</header>
+
+<section id="login">
+  <h2>管理画面の鍵</h2>
+  <p>初めて起動した時に黒い画面に 1 回だけ出た鍵（adm_ で始まる）を入れてください。</p>
+  <form id="loginForm"><input id="adminKey" type="password" autocomplete="off" placeholder="adm_..." aria-label="管理画面の鍵"> <button type="submit">開く</button></form>
+  <p id="loginMsg" class="err"></p>
+</section>
+
+<main id="app" hidden>
+  <section>
+    <h2>いまの状態</h2>
+    <div id="status" class="cards"></div>
+  </section>
+
+  <section>
+    <h2>会社全体の上限（円）</h2>
+    <form id="companyForm" class="row">
+      <label>1 日 <input name="day" inputmode="decimal"></label>
+      <label>1 か月 <input name="month" inputmode="decimal"></label>
+      <button type="submit">保存</button>
+    </form>
+    <h3>人ごとの既定の上限（個別に決めていない人）</h3>
+    <form id="defaultPersonForm" class="row">
+      <label>1 日 <input name="day" inputmode="decimal"></label>
+      <label>1 か月 <input name="month" inputmode="decimal"></label>
+      <button type="submit">保存</button>
+    </form>
+    <p class="note">空にすると上限なし。会社全体だけは必ず付けておくことをすすめます。</p>
+  </section>
+
+  <section>
+    <h2>人ごと</h2>
+    <div class="scroll"><table id="peopleTable"><thead><tr><th>名前</th><th>今日</th><th>今月</th><th>上限（日／月）</th></tr></thead><tbody></tbody></table></div>
+    <form id="personCapForm" class="row">
+      <label>名前 <input name="name" maxlength="40"></label>
+      <label>1 日 <input name="day" inputmode="decimal"></label>
+      <label>1 か月 <input name="month" inputmode="decimal"></label>
+      <button type="submit">個別の上限を保存</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>道具ごと</h2>
+    <div class="scroll"><table id="toolTable"><thead><tr><th>道具</th><th>今日</th><th>今月</th><th>上限（日／月）</th><th>個人情報</th></tr></thead><tbody></tbody></table></div>
+    <form id="toolCapForm" class="row">
+      <label>道具 <input name="name" maxlength="40"></label>
+      <label>1 日 <input name="day" inputmode="decimal"></label>
+      <label>1 か月 <input name="month" inputmode="decimal"></label>
+      <button type="submit">上限を保存</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>社員の鍵</h2>
+    <form id="issueForm" class="row">
+      <label>名前 <input name="person" maxlength="40" required></label>
+      <label>道具 <input name="tool" maxlength="40" placeholder="例：Dify・AI受付係"></label>
+      <button type="submit">鍵を発行</button>
+    </form>
+    <div id="newToken" class="newtoken" hidden>
+      <p><strong>この鍵は今だけ表示します。</strong>社員の道具の「API キー」の欄に入れ、送り先を この PC の住所に変えてください。</p>
+      <code id="newTokenText"></code>
+      <p id="newTokenHint" class="note"></p>
+    </div>
+    <div class="scroll"><table id="tokenTable"><thead><tr><th>番号</th><th>名前</th><th>道具</th><th>発行日</th><th>状態</th><th></th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>知らせ</h2>
+    <ul id="alerts"></ul>
+    <h3>最近の依頼（本文は残していません）</h3>
+    <div class="scroll"><table id="recentTable"><thead><tr><th>時刻</th><th>名前</th><th>道具</th><th>モデル</th><th>金額</th><th>伏せた</th><th>結果</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>記録の確かめ・月の報告</h2>
+    <form id="verifyForm" class="row">
+      <label>前の報告の指紋（番号） <input name="seq" inputmode="numeric"></label>
+      <label>指紋 <input name="hash" maxlength="64"></label>
+      <button type="submit">確かめる</button>
+    </form>
+    <p id="verifyMsg"></p>
+    <form id="reportForm" class="row">
+      <label>月 <input name="month" type="month"></label>
+      <button type="submit">報告を作る</button>
+      <button type="button" id="copyReport">写す</button>
+    </form>
+    <pre id="report"></pre>
+  </section>
+
+  <section>
+    <h2>設定</h2>
+    <form id="settingsForm" class="row">
+      <label>会社名 <input name="companyName" maxlength="40"></label>
+      <label>為替（円／米ドル） <input name="yenPerUsd" inputmode="decimal"></label>
+      <label>1 回の出力の上限（トークン） <input name="maxOutputTokens" inputmode="numeric"></label>
+      <label class="check"><input name="redactPersonal" type="checkbox"> 電話・メール・住所・氏名・生年月日も伏せる</label>
+      <button type="submit">保存</button>
+    </form>
+    <p class="note">鍵・パスワード・カード番号・マイナンバーは、この設定に関係なくいつも伏せます。</p>
+    <form id="toolOptForm" class="row">
+      <label>道具 <input name="toolName" maxlength="40"></label>
+      <label>個人情報 <select name="mode"><option value="default">会社の設定に従う</option><option value="on">伏せる</option><option value="off">伏せない（例：予約の受付で名前と電話が要る）</option></select></label>
+      <button type="submit">保存</button>
+    </form>
+    <h3>単価（100 万トークンあたりの米ドル）</h3>
+    <p class="note">初めは単価が入っていません。使うモデルの単価を、AI の会社の公式の料金表を見て入れてください。単価の無いモデルへの依頼は送りません。</p>
+    <div class="scroll"><table id="priceTable"><thead><tr><th>モデル</th><th>入力</th><th>出力</th><th></th></tr></thead><tbody></tbody></table></div>
+    <form id="priceForm" class="row">
+      <label>モデル <input name="model" maxlength="80"></label>
+      <label>入力 <input name="input" inputmode="decimal"></label>
+      <label>出力 <input name="output" inputmode="decimal"></label>
+      <button type="submit">登録</button>
+    </form>
+  </section>
+  <p id="toast" role="status"></p>
+</main>
+</body>
+</html>
