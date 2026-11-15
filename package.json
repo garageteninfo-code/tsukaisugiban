@@ -1,7 +1,7 @@
 {
   "name": "tsukaisugiban",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "使いすぎ番：AI の使いすぎ・情報の出しすぎを、送る前に止める小さな中継（試作）。お客様自身の API キーで、お客様の PC・サーバーの中で動かします。npm install は不要（依存 0）。",
   "license": "UNLICENSED",
   "type": "module",

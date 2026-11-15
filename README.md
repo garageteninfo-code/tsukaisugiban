@@ -1,4 +1,4 @@
-# 使いすぎ番 0.1.0 — AI の「使いすぎ」と「情報の出しすぎ」を、送る前に止める小さな中継
+# 使いすぎ番 0.1.1 — AI の「使いすぎ」と「情報の出しすぎ」を、送る前に止める小さな中継
 
 社員がふだん使う AI の道具（Dify・自作の道具・受付のボットなど）と AI の会社（Anthropic・OpenAI）の API の間に置く、**小さな中継（試作版）**です。
 人・道具ごとに「1 日・1 か月 何円まで」の上限を付け、送る前に鍵・カード番号・マイナンバーなどを伏せ、改ざんに気づける記録と日本語の月の報告を残します。
@@ -127,7 +127,7 @@ test/           … 試験（node:test）と、試験用のにせの AI の会�
 
 ## English (summary)
 
-**Tsukaisugi-ban 0.1.0** is a prototype local gateway placed between your staff's AI tools (Dify, in-house tools, chatbots) and the Anthropic / OpenAI APIs. It stops overspending and over-sharing **before** a request is sent.
+**Tsukaisugi-ban 0.1.1** is a prototype local gateway placed between your staff's AI tools (Dify, in-house tools, chatbots) and the Anthropic / OpenAI APIs. It stops overspending and over-sharing **before** a request is sent.
 
 - **Your own API key, on your own machine.** The customer uses their **own** AI API key (their own contract with the AI provider) on their **own** PC or server. **HARVEST does not provide or resell AI API access**, does not hold your keys, and receives none of your content, usage or logs. You must follow the AI provider's terms and usage policies; the provider bills you directly.
 - **What it does:** per-staff keys (`tsk_…`) instead of sharing the company key; yen caps per company / person / tool, per day and per month (Japan time), enforced by reserving the estimated cost before sending (30 concurrent requests did not exceed a 100-yen daily cap in tests); always redacts keys, passwords, card numbers and My Number before sending (phone, email, address, name, date of birth optional); tamper-evident usage log (hash chain + checkpoint) and a Japanese monthly report with a fingerprint; streaming pass-through; circuit breaker.
