@@ -2,7 +2,7 @@
 
 Tsukaisugi-ban — a small gateway that stops AI overspending and over-sharing before requests are sent (free prototype).
 
-This English text is a translation. If this English version and the Japanese version ([`利用条件.md`](利用条件.md)) differ, the Japanese version is the original.
+This English text was translated with AI and has not been checked by a native speaker. If this English version and the Japanese version ([`利用条件.md`](利用条件.md)) differ, the Japanese version is the original.
 
 ## 1. What this tool does
 

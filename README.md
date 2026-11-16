@@ -127,6 +127,8 @@ test/           … 試験（node:test）と、試験用のにせの AI の会�
 
 ## English (summary)
 
+*This English section was translated with AI.*
+
 **Tsukaisugi-ban 0.1.1** is a prototype local gateway placed between your staff's AI tools (Dify, in-house tools, chatbots) and the Anthropic / OpenAI APIs. It stops overspending and over-sharing **before** a request is sent.
 
 - **Your own API key, on your own machine.** The customer uses their **own** AI API key (their own contract with the AI provider) on their **own** PC or server. **HARVEST does not provide or resell AI API access**, does not hold your keys, and receives none of your content, usage or logs. You must follow the AI provider's terms and usage policies; the provider bills you directly.
